@@ -1,5 +1,6 @@
 package org.example.util;
 
+import org.example.entities.Cat;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -12,14 +13,16 @@ public class HibernateUtil {
     //Потрібно, щочаб десь визвати клас HibernateUtil
     static {
         try {
-            // Створення фабрики сесій
-            sessionFactory = new Configuration()
+            var config = new Configuration()
 //                    .configure("hibernate.cfg.xml")
-                    .configure()
+                    .configure();
+            config.addAnnotatedClass(Cat.class);
+            // Створення фабрики сесій
+            sessionFactory = config
                     .buildSessionFactory();
             System.out.println("------Підключення до БД успіщно-----");
         } catch (Exception e) {
-            System.out.println("Помилка зяднання з БД!");
+            System.out.println("Помилка зяднання з БД! " + e.getMessage());
             //e.printStackTrace();
             //throw new ExceptionInInitializerError("Не вдалося створити SessionFactory");
         }

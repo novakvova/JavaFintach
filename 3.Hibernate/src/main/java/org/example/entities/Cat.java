@@ -1,7 +1,6 @@
 package org.example.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,13 @@ import lombok.NoArgsConstructor;
 @Entity //сушність бази даних - Воно саме знає при компіляції
 @Table(name="tblCats")
 public class Cat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id; //Id - кота
+
+    @Column(length = 150, nullable = false)
     private String name;   // Ім'я котика
     private int age;       // Вік котика
+    @Column(length = 100, nullable = true)
     private String color;  // Колір котика
 }
