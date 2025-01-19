@@ -67,6 +67,9 @@
     </dependencies>
 
     <build>
+        <finalName>
+            npr211
+        </finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
