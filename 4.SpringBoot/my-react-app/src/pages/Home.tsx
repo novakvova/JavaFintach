@@ -7,16 +7,6 @@ import {Table} from "flowbite-react";
 import {useGetCategoriesQuery} from "../services/apiCategory.ts";
 
 const Home: React.FC = () => {
-    // const [list, setList] = useState<ICategory[]>([]);
-    //
-    // useEffect(() => {
-    //     axios.get<ICategory[]>(`${APP_ENV.REMOTE_BASE_URL}/api/categories`)
-    //         .then(resp => {
-    //             console.log("Server result", resp.data);
-    //             setList(resp.data);
-    //         });
-    //     console.log("Is use Effect");
-    // }, []);
 
     const { data: list = [], isLoading, error } = useGetCategoriesQuery();
 
