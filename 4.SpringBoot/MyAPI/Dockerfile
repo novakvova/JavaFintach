@@ -17,7 +17,7 @@ FROM openjdk:17-jdk-slim
 # Set the working directory
 WORKDIR /app
 
-EXPOSE 8090
+EXPOSE 8081
 
 # Copy the built jar file from the Maven build stage
 COPY --from=build /app/target/npr211.jar ./app.jar

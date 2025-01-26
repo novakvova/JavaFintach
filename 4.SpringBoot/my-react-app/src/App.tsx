@@ -1,65 +1,69 @@
-import './App.css'
-import {Button} from "flowbite-react";
-import {FaBeer} from "react-icons/fa";
-import {useEffect, useState} from "react";
-import {APP_ENV} from "./env"; // Імпорт іконки "FaBeer" з FontAwesome
-import axios from "axios";
-import { Table } from "flowbite-react";
-import {ICategory} from "./types/Category.ts";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, NavLink } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
-function App() {
-    const [list, setList] = useState<ICategory[]>([]);
-
-    useEffect(() => {
-        axios.get<ICategory[]>(`${APP_ENV.REMOTE_BASE_URL}/api/categories`)
-            .then(resp => {
-                console.log("Server result", resp.data);
-                setList(resp.data);
-            });
-        console.log("Is use Effect");
-    }, []);
-
-    console.log("App is running!", APP_ENV.REMOTE_BASE_URL);
-
-    const mapData = list.map((category) => (
-        <Table.Row key={category.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {category.name}
-            </Table.Cell>
-            <Table.Cell>{category.image}</Table.Cell>
-            <Table.Cell>{category.description}</Table.Cell>
-            <Table.Cell>
-                <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                    Змінити
-                </a>
-            </Table.Cell>
-        </Table.Row>
-    ));
-
+const App: React.FC = () => {
     return (
-        <>
-            <h1 className="text-3xl font-bold underline">
-                Let's have a beer! <FaBeer/>
-            </h1>
-            <Button>Click me</Button>;
+        <Router>
+            <div className="flex flex-col min-h-screen">
+                {/* Navbar */}
+                <header className="bg-blue-600 text-white p-4 shadow-md">
+                    <nav className="container mx-auto flex justify-between items-center">
+                        <h1 className="text-2xl font-bold">My App</h1>
+                        <ul className="flex space-x-4">
+                            <li>
+                                <NavLink
+                                    to="/"
+                                    className={({ isActive }) =>
+                                        `hover:underline ${isActive ? "font-bold underline" : ""}`
+                                    }
+                                    end
+                                >
+                                    Home
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/about"
+                                    className={({ isActive }) =>
+                                        `hover:underline ${isActive ? "font-bold underline" : ""}`
+                                    }
+                                >
+                                    About
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/contact"
+                                    className={({ isActive }) =>
+                                        `hover:underline ${isActive ? "font-bold underline" : ""}`
+                                    }
+                                >
+                                    Contact
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </nav>
+                </header>
 
-            <div className="overflow-x-auto">
-                <Table>
-                    <Table.Head>
-                        <Table.HeadCell>Назва категорії</Table.HeadCell>
-                        <Table.HeadCell>Фото</Table.HeadCell>
-                        <Table.HeadCell>Опис</Table.HeadCell>
-                        <Table.HeadCell>
-                            <span className="sr-only">Edit</span>
-                        </Table.HeadCell>
-                    </Table.Head>
-                    <Table.Body className="divide-y">
-                        {mapData}
-                    </Table.Body>
-                </Table>
+                {/* Main Content */}
+                <main className="flex-grow container mx-auto p-4">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                    </Routes>
+                </main>
+
+                {/* Footer */}
+                <footer className="bg-gray-800 text-white p-4 text-center">
+                    <p>© 2025 My App. All rights reserved.</p>
+                </footer>
             </div>
-        </>
-    )
-}
+        </Router>
+    );
+};
 
-export default App
+export default App;

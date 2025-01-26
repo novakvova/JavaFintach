@@ -19,13 +19,13 @@ java -jar target/npr211.jar --server.port=8081
 ```
 docker build -t npr211-java . 
 docker images --all
-docker run -it --rm -p 5085:8090 --name fonbook_container npr211-java
-docker run -d --restart=always --name fonbook_container -p 5085:8090 npr211-java
-docker run -d --restart=always -v d:/volumes/spring/uploading:/app/uploading --name fonbook_container -p 5085:8090 npr211-java
-docker run -d --restart=always -v /volumes/spring/uploading:/app/uploading --name fonbook_container -p 5085:8090 npr211-java
+docker run -it --rm -p 5085:8081 --name npr211_container npr211-java
+docker run -d --restart=always --name npr211_container -p 5085:8081 npr211-java
+docker run -d --restart=always -v d:/volumes/spring/uploading:/app/uploading --name npr211_container -p 5085:8081 npr211-java
+docker run -d --restart=always -v /volumes/spring/uploading:/app/uploading --name npr211_container -p 5085:8081 npr211-java
 docker ps -a
-docker stop fonbook_container
-docker rm fonbook_container
+docker stop npr211_container
+docker rm npr211_container
 
 docker images --all
 docker rmi npr211-java
@@ -36,15 +36,15 @@ docker push novakvova/npr211-java:latest
 
 docker pull novakvova/npr211-java:latest
 docker ps -a
-docker run -d --restart=always --name fonbook_container -p 5085:8090 novakvova/npr211-java
+docker run -d --restart=always --name npr211_container -p 5085:8081 novakvova/npr211-java
 
 
 docker pull novakvova/npr211-java:latest
 docker images --all
 docker ps -a
-docker stop fonbook_container
-docker rm fonbook_container
-docker run -d --restart=always --name fonbook_container -p 5085:8090 novakvova/npr211-java
+docker stop npr211_container
+docker rm npr211_container
+docker run -d --restart=always --name npr211_container -p 5085:8081 novakvova/npr211-java
 
 ---------------/etc/nginx/sites-available/--------------------------
 
