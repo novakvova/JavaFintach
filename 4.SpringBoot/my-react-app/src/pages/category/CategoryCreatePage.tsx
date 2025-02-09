@@ -3,23 +3,32 @@ import { PlusOutlined } from "@ant-design/icons";
 import {ICategoryCreate} from "../../types/Category.ts";
 import {useState} from "react";
 import {useCreateCategoryMutation} from "../../services/apiCategory.ts";
+import {useNavigate} from "react-router-dom";
 
 const { TextArea } = Input;
 
 const CategoryCreatePage : React.FC = () => {
     const [form] = Form.useForm<ICategoryCreate>();
     const [imageUrl, setImageUrl] = useState(null);
+    const navigate = useNavigate();
 
     const [createCategory, { isLoading, error }] = useCreateCategoryMutation();
 
-    const handleFinish = (values: ICategoryCreate) => {
+    const handleFinish = async (values: ICategoryCreate) => {
         // @ts-ignore
         const file = values.imageFile?.file as File;
         const model : ICategoryCreate = { ...values, imageFile: file };
         //console.log("Submit form ", model);
-        createCategory(model);
-        form.resetFields();
-        setImageUrl(null); // Очистити попередній перегляд після відправки
+        try {
+            const resp = await createCategory(model);
+            console.log("Resp server", resp);
+            //form.resetFields();
+            //setImageUrl(null); // Очистити попередній перегляд після відправки
+            navigate("/");
+        } catch (error) {
+            console.error(error);
+        }
+
     };
 
 
