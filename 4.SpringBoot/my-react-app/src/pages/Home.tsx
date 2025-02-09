@@ -20,7 +20,10 @@ const Home: React.FC = () => {
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                 {category.name}
             </Table.Cell>
-            <Table.Cell>{category.image}</Table.Cell>
+            <Table.Cell>
+                <img src={`${APP_ENV.REMOTE_BASE_URL}/images/${category.image}`} alt={category.name}
+                 className={"w-16 h-16 object-cover rounded"}/>
+            </Table.Cell>
             <Table.Cell>{category.description}</Table.Cell>
             <Table.Cell>
                 <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
