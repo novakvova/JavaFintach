@@ -1,6 +1,7 @@
 package org.example.seeder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +18,9 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
     private CategorySeeder categorySeeder;
-
-    private static final String PHOTO_FOLDER = "photos";
-    private static final String[] SAMPLE_PHOTOS = {
+    @Value("photos.dir")
+    private String PHOTO_FOLDER;
+    private final String[] SAMPLE_PHOTOS = {
             "https://img.freepik.com/free-photo/modern-stationary-collection-arrangement_23-2149309643.jpg",
             "https://www.shutterstock.com/image-illustration/bookshelf-minimalist-simple-stuff-item-600nw-2341757133.jpg",
             "https://t3.ftcdn.net/jpg/03/34/79/68/360_F_334796865_VVTjg49nbLgQPG6rgKDjVqSb5XUhBVsW.jpg"
@@ -30,7 +31,6 @@ public class DatabaseSeeder implements CommandLineRunner {
         categorySeeder.seed();
 
         createPhotoFolder();
-
         downloadSamplePhotos();
     }
 
