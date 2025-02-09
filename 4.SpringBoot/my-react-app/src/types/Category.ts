@@ -5,3 +5,9 @@ export interface ICategory  {
     image: string;
     description: string;
 }
+
+export interface ICategoryCreate {
+    name: string;
+    imageFile: File|null;
+    description: string;
+}

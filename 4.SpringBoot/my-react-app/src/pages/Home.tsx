@@ -5,6 +5,7 @@
 import {APP_ENV} from "../env";
 import {Table} from "flowbite-react";
 import {useGetCategoriesQuery} from "../services/apiCategory.ts";
+import {Link} from "react-router-dom";
 
 const Home: React.FC = () => {
 
@@ -38,6 +39,14 @@ const Home: React.FC = () => {
             <h1 className="text-center text-3xl font-bold">
                 Категорії
             </h1>
+
+            <div className={"mb-4"}>
+                <Link to={"/category/create"} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    Додати категорію
+                </Link>
+            </div>
+
+
 
             <div className="overflow-x-auto">
                 <Table>
