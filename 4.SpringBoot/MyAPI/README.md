@@ -36,7 +36,7 @@ docker push novakvova/npr211-java:latest
 
 docker pull novakvova/npr211-java:latest
 docker ps -a
-docker run -d --restart=always --name npr211_container -p 5085:8081 novakvova/npr211-java
+docker run -d --restart=always -v /volumes/npr211/photos:/app/photos --name npr211_container -p 5085:8081 novakvova/npr211-java
 
 
 docker pull novakvova/npr211-java:latest
