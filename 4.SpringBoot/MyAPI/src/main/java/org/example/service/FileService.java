@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    @Value("photos.dir")
+    @Value("${photos.dir}")
     private String uploadDir;
 
     public String load(MultipartFile file) {

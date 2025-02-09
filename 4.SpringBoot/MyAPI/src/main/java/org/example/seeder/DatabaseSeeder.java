@@ -18,7 +18,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
     private CategorySeeder categorySeeder;
-    @Value("photos.dir")
+    @Value("${photos.dir}")
     private String PHOTO_FOLDER;
     private final String[] SAMPLE_PHOTOS = {
             "https://img.freepik.com/free-photo/modern-stationary-collection-arrangement_23-2149309643.jpg",
