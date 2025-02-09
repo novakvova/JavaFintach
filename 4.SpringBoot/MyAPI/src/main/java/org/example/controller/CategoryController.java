@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -22,8 +24,8 @@ public class CategoryController {
         return categoryService.getAllCategories();
     }
 
-    @PostMapping
-    public ResponseEntity<CategoryEntity> createCategory(@RequestBody CategoryPostDTO categoryPostDTO) {
+    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CategoryEntity> createCategory(@ModelAttribute CategoryPostDTO categoryPostDTO) {
         CategoryEntity category = categoryService.createCategory(categoryPostDTO);
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
