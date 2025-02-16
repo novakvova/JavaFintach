@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.dto.category.CategoryEditDTO;
+import org.example.dto.category.CategoryItemDTO;
 import org.example.dto.category.CategoryPostDTO;
 import org.example.entities.CategoryEntity;
 import org.example.service.CategoryService;
@@ -22,7 +23,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<CategoryEntity> getAll() {
+    public List<CategoryItemDTO> getAll() {
         return categoryService.getAll();
     }
 

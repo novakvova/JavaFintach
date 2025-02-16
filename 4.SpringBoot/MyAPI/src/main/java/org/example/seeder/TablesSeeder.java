@@ -77,7 +77,7 @@ public class TablesSeeder {
 
         productRepository.saveAll(List.of(product1, product2, product3));
 
-        seedProductImages(product1, product2, product3);
+        //seedProductImages(product1, product2, product3);
     }
 
     private void seedProductImages(ProductEntity product1, ProductEntity product2, ProductEntity product3) {

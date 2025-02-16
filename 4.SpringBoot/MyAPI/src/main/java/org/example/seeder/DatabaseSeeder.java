@@ -17,7 +17,7 @@ import java.nio.file.StandardCopyOption;
 public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
-    private TablesSeeder categorySeeder;
+    private TablesSeeder tablesSeeder;
     @Value("${photos.dir}")
     private String PHOTO_FOLDER;
     private final String[] SAMPLE_PHOTOS = {
@@ -28,7 +28,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        categorySeeder.seed();
+        tablesSeeder.seed();
 
         createPhotoFolder();
         downloadSamplePhotos();

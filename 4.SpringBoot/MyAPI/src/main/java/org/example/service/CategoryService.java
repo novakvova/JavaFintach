@@ -1,8 +1,10 @@
 package org.example.service;
 
 import org.example.dto.category.CategoryEditDTO;
+import org.example.dto.category.CategoryItemDTO;
 import org.example.dto.category.CategoryPostDTO;
 import org.example.entities.CategoryEntity;
+import org.example.mapper.CategoryMapper;
 import org.example.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,17 +12,24 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
     @Autowired
     private FileService fileService;
 
-    public List<CategoryEntity> getAll() {
-        return categoryRepository.findAll();
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    public List<CategoryItemDTO> getAll() {
+        return categoryRepository.findAll()
+                .stream().map(categoryMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public Optional<CategoryEntity> getById(Integer id) {
