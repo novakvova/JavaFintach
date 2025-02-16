@@ -32,21 +32,19 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<CategoryEntity> getById(Integer id) {
-        return categoryRepository.findById(id);
+    public Optional<CategoryItemDTO> getById(Integer id) {
+        return categoryRepository.findById(id).map(categoryMapper::toDto);
     }
 
-    public CategoryEntity create(CategoryPostDTO categoryPostDTO) {
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setName(categoryPostDTO.getName());
+    public CategoryItemDTO create(CategoryPostDTO categoryPostDTO) {
+        CategoryEntity categoryEntity = categoryMapper.fromPostDto(categoryPostDTO);
         var imgName = fileService.load(categoryPostDTO.getImageFile());
         categoryEntity.setImage(imgName);
-        categoryEntity.setDescription(categoryPostDTO.getDescription());
-        categoryEntity.setCreationTime(LocalDateTime.now());
-        return categoryRepository.save(categoryEntity);
+        categoryEntity = categoryRepository.save(categoryEntity);
+        return categoryMapper.toDto(categoryEntity);
     }
 
-    public CategoryEntity edit(CategoryEditDTO dto) {
+    public CategoryItemDTO edit(CategoryEditDTO dto) {
         CategoryEntity entity = categoryRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
@@ -59,12 +57,13 @@ public class CategoryService {
         }
 
         var newImageFile = dto.getImageFile();
-        if (newImageFile!=null && !newImageFile.isEmpty()){
+        if (newImageFile != null && !newImageFile.isEmpty()) {
             var newImagePath = fileService.replace(entity.getImage(), dto.getImageFile());
             entity.setImage(newImagePath);
         }
 
-        return categoryRepository.save(entity);
+        entity = categoryRepository.save(entity);
+        return categoryMapper.toDto(entity);
     }
 
     public boolean delete(Integer id) {
