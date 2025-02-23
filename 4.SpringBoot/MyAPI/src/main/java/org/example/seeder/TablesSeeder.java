@@ -82,22 +82,22 @@ public class TablesSeeder {
 
     private void seedProductImages(ProductEntity product1, ProductEntity product2, ProductEntity product3) {
         ProductImageEntity image1 = new ProductImageEntity();
-        image1.setImageUrl("smartphone1.jpg");
+        image1.setName("smartphone1.jpg");
         image1.setPriority(1);
         image1.setProduct(product1);
 
         ProductImageEntity image11 = new ProductImageEntity();
-        image11.setImageUrl("smartphone11.jpg");
+        image11.setName("smartphone11.jpg");
         image11.setPriority(2);
         image11.setProduct(product1);
 
         ProductImageEntity image2 = new ProductImageEntity();
-        image2.setImageUrl("sci-fi-book.jpg");
+        image2.setName("sci-fi-book.jpg");
         image2.setPriority(1);
         image2.setProduct(product2);
 
         ProductImageEntity image3 = new ProductImageEntity();
-        image3.setImageUrl("tshirt1.jpg");
+        image3.setName("tshirt1.jpg");
         image3.setPriority(1);
         image3.setProduct(product3);
 
