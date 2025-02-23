@@ -77,7 +77,8 @@ const CategoryCreatePage : React.FC = () => {
                             <img
                                 src={imageUrl}
                                 alt="Preview"
-                                className="w-full h-40 object-cover rounded-lg shadow-md"
+                                style={{maxHeight: "100px", maxWidth: "100%"}}
+                                // className="w-full h-40 object-cover rounded-lg shadow-md"
                             />
                         </div>
                     )}

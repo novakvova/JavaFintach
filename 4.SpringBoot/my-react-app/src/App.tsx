@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import CategoryCreatePage from "./pages/category/CategoryCreatePage.tsx";
+import ProductListPage from "./pages/product/ProductListPage.tsx";
 
 const App: React.FC = () => {
     return (
@@ -57,6 +58,10 @@ const App: React.FC = () => {
                         <Route path="/contact" element={<Contact/>}/>
                         <Route path="/category">
                             <Route path="create" element={<CategoryCreatePage/>}/>
+                        </Route>
+                        <Route path="/product">
+                            <Route index element={<ProductListPage/>}/>
+                            {/*<Route path="create" element={<CategoryCreatePage/>}/>*/}
                         </Route>
                     </Routes>
                 </main>
