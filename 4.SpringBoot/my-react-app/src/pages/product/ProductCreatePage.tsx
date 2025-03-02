@@ -7,12 +7,14 @@ import {useNavigate} from "react-router-dom";
 import {useCreateProductMutation} from "../../services/apiProduct.ts";
 import {useGetCategoriesQuery} from "../../services/apiCategory.ts";
 import {ICategory} from "../../types/Category.ts";
+import {UploadFile} from "antd/es/upload/interface";
+import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
 
 const { TextArea } = Input;
 
 const ProductCreatePage : React.FC = () => {
     const [form] = Form.useForm<IProductPostRequest>();
-    const [imageUrl, setImageUrl] = useState(null);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
     const navigate = useNavigate();
 
     const [createProduct, { isLoading, error }] = useCreateProductMutation();
@@ -38,20 +40,22 @@ const ProductCreatePage : React.FC = () => {
     };
 
 
-    const handleUpload = (file: File) => {
-        // @ts-ignore
-        setImageUrl(URL.createObjectURL(file));
+    const handleImageChange = (info: { fileList: UploadFile[] }) => {
+        const newFileList = info.fileList.map((file, index) => ({
+            ...file,
+            uid: file.uid || Date.now().toString(),
+            order: index,
+        }));
+
+        setFileList(newFileList);
     };
 
-    // Обмеження для файлів
-    const beforeUpload = (file: File) => {
-        const isImage = file.type.startsWith("image/");
-        if (!isImage) {
-            message.error("Можна завантажувати тільки зображення!");
-            return false;
-        }
-        handleUpload(file);
-        return false;
+    const onDragEnd = (result: DropResult) => {
+        if (!result.destination) return;
+        const reorderedFiles = Array.from(fileList);
+        const [movedFile] = reorderedFiles.splice(result.source.index, 1);
+        reorderedFiles.splice(result.destination.index, 0, movedFile);
+        setFileList(reorderedFiles);
     };
 
     const categoriesOption = categories.map((category: ICategory) => {
@@ -63,7 +67,7 @@ const ProductCreatePage : React.FC = () => {
 
     return (
         <>
-            <div className="max-w-md mx-auto bg-white p-6 rounded-2xl shadow-md">
+            <div className="max-w-lg mx-auto bg-white p-6 rounded-2xl shadow-md">
                 <h2 className="text-xl font-semibold mb-4">Додати продукт</h2>
                 <Form form={form} layout="vertical" onFinish={handleFinish}>
                     <Form.Item
@@ -74,33 +78,57 @@ const ProductCreatePage : React.FC = () => {
                         <Input placeholder="Назва категорії" />
                     </Form.Item>
 
-                    {/* Завантаження фото */}
-                    <Form.Item label="Зображення" name={"imageFile"}>
-                        <Upload
-                            showUploadList={false}
-                            beforeUpload={beforeUpload}
-                        >
-                            <Button icon={<PlusOutlined />}>Завантажити фото</Button>
-                        </Upload>
-                    </Form.Item>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="upload-list" direction="horizontal">
+                            {(provided) => (
+                                <div ref={provided.innerRef} {...provided.droppableProps} className="flex flex-wrap gap-2">
+                                    {fileList.map((file, index) => (
+                                        <Draggable key={file.uid} draggableId={file.uid} index={index}>
+                                            {(provided) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <Upload
+                                                        listType="picture-card"
+                                                        fileList={[file]}
+                                                        onRemove={() => {
+                                                            const newFileList = fileList.filter(f => f.uid !== file.uid);
+                                                            setFileList(newFileList);
+                                                        }}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
 
-                    {/* Попередній перегляд фото */}
-                    {imageUrl && (
-                        <div className="mt-4">
-                            <img
-                                src={imageUrl}
-                                alt="Preview"
-                                style={{maxHeight: "100px", maxWidth: "100%"}}
-                                // className="w-full h-40 object-cover rounded-lg shadow-md"
-                            />
+                    <Upload
+                        multiple
+                        listType="picture-card"
+                        beforeUpload={() => false}
+                        onChange={handleImageChange}
+                        fileList={[]}
+                        accept="image/*"
+                    >
+                        <div>
+                            <PlusOutlined/>
+                            <div style={{marginTop: 8}}>Додати</div>
                         </div>
-                    )}
+                    </Upload>
+
+
 
                     { isCategoriesLoading ?
                         <p>Loading categories...</p>
                         :
                         categoriesError ?
-                            <div className={"text-red-500"}>{categoriesError}</div>
+                            <div className={"text-red-500"}>Fail Load Categories</div>
                             :
                             <Form.Item
                                 label="Категорія"
