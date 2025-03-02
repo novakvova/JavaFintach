@@ -18,7 +18,7 @@ export const apiProduct = createApi({
                 try {
                     const formData = serialize(model);
                     return {
-                        url: '/api/product',
+                        url: '/api/products',
                         method: 'POST',
                         body: formData,
                     };

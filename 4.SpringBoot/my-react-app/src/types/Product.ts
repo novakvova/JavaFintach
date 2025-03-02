@@ -20,5 +20,5 @@ export interface IProductPostRequest {
     name: string;
     price: number;
     categoryId: string;
-    images?: File[];
+    imageFiles?: File[];
 }

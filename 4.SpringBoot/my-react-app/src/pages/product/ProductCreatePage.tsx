@@ -1,8 +1,7 @@
-import {Form, Input, Button, Upload, message, Select} from "antd";
+import {Form, Input, Button, Upload, Select} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {IProductPostRequest} from "../../types/Product.ts";
 import {useState} from "react";
-// import {useCreateCategoryMutation} from "../../services/apiCategory.ts";
 import {useNavigate} from "react-router-dom";
 import {useCreateProductMutation} from "../../services/apiProduct.ts";
 import {useGetCategoriesQuery} from "../../services/apiCategory.ts";
@@ -22,20 +21,16 @@ const ProductCreatePage : React.FC = () => {
     const { data: categories = [], isLoading: isCategoriesLoading, error: categoriesError } = useGetCategoriesQuery();
 
     const handleFinish = async (values: IProductPostRequest) => {
-        // @ts-ignore
-
-        // const file = values.imageFile?.file as File;
-        // const model : IProductPostRequest = { ...values, imageFile: file };
-        // //console.log("Submit form ", model);
-        // try {
-        //     const resp = await createCategory(model);
-        //     console.log("Resp server", resp);
-        //     //form.resetFields();
-        //     //setImageUrl(null); // Очистити попередній перегляд після відправки
-        //     navigate("/");
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        if(fileList.length > 0) {
+            values.imageFiles = fileList.map(fl=> fl.originFileObj as File);
+        }
+        try {
+            const resp = await createProduct(values);
+            console.log("Resp server", resp);
+            navigate("/product");
+        } catch (error) {
+            console.error(error);
+        }
 
     };
 
@@ -73,9 +68,17 @@ const ProductCreatePage : React.FC = () => {
                     <Form.Item
                         label="Назва"
                         name="name"
-                        rules={[{ required: true, message: "Вкажіть назву категорії" }]}
+                        rules={[{ required: true, message: "Вкажіть назву " }]}
                     >
-                        <Input placeholder="Назва категорії" />
+                        <Input placeholder="Назва продукта" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Ціна"
+                        name="price"
+                        rules={[{ required: true, message: "Вкажіть ціну " }]}
+                    >
+                        <Input placeholder="Ціна продукта" />
                     </Form.Item>
 
                     <DragDropContext onDragEnd={onDragEnd}>
@@ -152,7 +155,7 @@ const ProductCreatePage : React.FC = () => {
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="w-full"
                                 disabled={isLoading}>
-                            {isLoading ? 'Створення...' : 'Створити категороію'}
+                            {isLoading ? 'Створення...' : 'Створити продукт'}
                         </Button>
                     </Form.Item>
 
