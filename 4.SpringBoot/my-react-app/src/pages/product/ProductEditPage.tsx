@@ -11,7 +11,7 @@ import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/d
 
 const { TextArea } = Input;
 
-const ProductCreatePage : React.FC = () => {
+const ProductEditPage : React.FC = () => {
     const [form] = Form.useForm<IProductPostRequest>();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const navigate = useNavigate();
@@ -63,7 +63,7 @@ const ProductCreatePage : React.FC = () => {
     return (
         <>
             <div className="max-w-lg mx-auto bg-white p-6 rounded-2xl shadow-md">
-                <h2 className="text-xl font-semibold mb-4">Додати продукт</h2>
+                <h2 className="text-xl font-semibold mb-4">Зміна продукта</h2>
                 <Form form={form} layout="vertical" onFinish={handleFinish}>
                     <Form.Item
                         label="Назва"
@@ -167,4 +167,4 @@ const ProductCreatePage : React.FC = () => {
     )
 }
 
-export default  ProductCreatePage;
+export default  ProductEditPage;
