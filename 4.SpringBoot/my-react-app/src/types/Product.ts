@@ -10,6 +10,15 @@ export interface IProduct  {
     name: string;
     images: IProductImage[];
     description: string;
+    categoryId: number;
     categoryName: string;
     price: string;
+}
+
+
+export interface IProductPostRequest {
+    name: string;
+    price: number;
+    categoryId: string;
+    images?: File[];
 }

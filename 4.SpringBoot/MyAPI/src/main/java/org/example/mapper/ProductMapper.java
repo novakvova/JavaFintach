@@ -13,6 +13,7 @@ public interface ProductMapper {
 
     @Mapping(source = "creationTime", target = "dateCreated", dateFormat = "yyyy-MM-dd HH:mm:ss")
     @Mapping(source = "category.name", target = "categoryName")
+    @Mapping(source = "category.id", target = "categoryId")
     ProductItemDTO toDto(ProductEntity product);
 
     List<ProductItemDTO> toDto(List<ProductEntity> products);

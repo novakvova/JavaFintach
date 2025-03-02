@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { APP_ENV } from "../env";
-import {IProduct} from "../types/Product.ts";
+import {IProduct, IProductPostRequest} from "../types/Product.ts";
+import {serialize} from "object-to-formdata";
 
 export const apiProduct = createApi({
     reducerPath: "apiProduct",
@@ -9,9 +10,25 @@ export const apiProduct = createApi({
     endpoints: (builder) => ({
         getProducts: builder.query<IProduct[], void>({
             query: () => "/api/products",
-            providesTags: ["Product"], // Позначаємо, що цей запит пов'язаний з "Category"
+            providesTags: ["Product"], // Позначаємо, що цей запит пов'язаний з "Product"
+        }),
+
+        createProduct: builder.mutation<IProduct, IProductPostRequest>({
+            query: (model) => {
+                try {
+                    const formData = serialize(model);
+                    return {
+                        url: '/api/product',
+                        method: 'POST',
+                        body: formData,
+                    };
+                } catch {
+                    throw new Error("Error serializing the form data.");
+                }
+            },
+            invalidatesTags: ["Product"], // Інвалідовуємо "Product" після створення
         }),
     }),
 });
 
-export const { useGetProductsQuery } = apiProduct;
+export const { useGetProductsQuery, useCreateProductMutation } = apiProduct;

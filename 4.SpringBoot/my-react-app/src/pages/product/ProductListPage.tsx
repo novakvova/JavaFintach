@@ -47,8 +47,8 @@ const ProductListPage: React.FC = () => {
             </h1>
 
             <div className={"mb-4"}>
-                <Link to={"/category/create"} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    Додати категорію
+                <Link to={"create"} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    Додати продукт
                 </Link>
             </div>
 
