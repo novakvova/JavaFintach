@@ -18,6 +18,13 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
     private TablesSeeder tablesSeeder;
+
+    @Autowired
+    private RoleSeeder roleSeeder;
+
+    @Autowired
+    private UserSeeder userSeeder;
+
     @Value("${photos.dir}")
     private String PHOTO_FOLDER;
     private final String[] SAMPLE_PHOTOS = {
@@ -29,7 +36,8 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         tablesSeeder.seed();
-
+        roleSeeder.seed();
+        userSeeder.seed();
         createPhotoFolder();
         downloadSamplePhotos();
     }
