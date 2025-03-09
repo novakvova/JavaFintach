@@ -3,7 +3,7 @@ package org.example.config.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/rest-api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
-
+                        .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -67,5 +67,7 @@ public class SecurityConfiguration {
 
 //        return http.build();
     }
+
+
 }
 
