@@ -7,6 +7,7 @@ import CategoryCreatePage from "./pages/category/CategoryCreatePage.tsx";
 import ProductListPage from "./pages/product/ProductListPage.tsx";
 import ProductCreatePage from "./pages/product/ProductCreatePage.tsx";
 import RegisterPage from "./pages/auth/RegisterPage.tsx";
+import LoginPage from "./pages/auth/LoginPage.tsx";
 
 const App: React.FC = () => {
     return (
@@ -62,6 +63,17 @@ const App: React.FC = () => {
 
                             <li>
                                 <NavLink
+                                    to="/login"
+                                    className={({isActive}) =>
+                                        `hover:underline ${isActive ? "font-bold underline" : ""}`
+                                    }
+                                >
+                                    Вхід
+                                </NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink
                                     to="/product"
                                     className={({isActive}) =>
                                         `hover:underline ${isActive ? "font-bold underline" : ""}`
@@ -88,6 +100,7 @@ const App: React.FC = () => {
                             <Route path="create" element={<ProductCreatePage/>}/>
                         </Route>
                         <Route path="/register" element={<RegisterPage/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
                     </Routes>
                 </main>
 
